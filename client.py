@@ -4,8 +4,10 @@ import json
 import time
 import threading
 
+# Ne pas oublier de désactiver le pare feu (Celui de Avast)
+
 class aclient():
-    def __init__(self, IP = socket.gethostname(), port = int(sys.argv[1])):
+    def __init__(self, IP = "172.17.10.43", port = int(sys.argv[1])):
         self.s1 = socket.socket()
         self.s1.connect((IP, port))
         self.s2 = socket.socket()
@@ -44,6 +46,7 @@ class aclient():
                 finished = True
             except IndentationError:
                 pass
+        self.s1.close()
 
     def pong(self,c):
         c.send(json.dumps({"response": "pong"}).encode())
@@ -58,9 +61,6 @@ class aclient():
             if request["request"] == "ping":
                 self.pong(c)
                 
-
-
-
 aclient().run()
 
 
