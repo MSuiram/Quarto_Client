@@ -1,8 +1,9 @@
 import random
 
 class algoritm():
-    def __init__(self):
-        self.board = []
+    def __init__(self, board = [], piece = None):
+        self.board = board
+        self.piece = piece
 
     def life(self):
         print(self.data["lives"])
@@ -29,7 +30,10 @@ class algoritm():
             else:
                 pass
         print(liste)
-        return "".join(random.choice(liste))
+        if liste != []:
+            return "".join(random.choice(liste))
+        else:
+            return None
 
     def run(self, data):
         self.data = data
