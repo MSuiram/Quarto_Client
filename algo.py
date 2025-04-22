@@ -3,7 +3,6 @@ import random
 class algoritm():
     def __init__(self):
         self.board = []
-        pass
 
     def life(self):
         print(self.data["lives"])
@@ -15,23 +14,28 @@ class algoritm():
 
     def choice_pos(self):
         poss = []
-        for i in range(self.board):
-            if self.board[i] == "null":
+        for i in range(len(self.board)):
+            if self.board[i] == None:
                 poss.append(i)
         return random.choice(poss)
 
     def choice_piece(self):
-        liste = [["B","S"],["D","L"],["E","F"],["C","P"]]
-        a = []
-        while "".join(a) == self.board:
-            for i in liste:
-                a.append(random.choice(i))
-        return "".join(a)
+        liste = ["BDEC","BDEP","BDFC","BDFP","BLEC","BLFC","BLEP","BLFP","SDEC","SDEP","SDFC","SDFP","SLEC","SLFC","SLEP","SLFP"]
+        if self.piece != None:
+            liste.remove(self.piece)
+        for i in self.board:
+            if i != None:
+                liste.remove(i)
+            else:
+                pass
+        print(liste)
+        return random.choice(liste)
 
     def run(self, data):
         self.data = data
         self.life()
         self.states()
-        return {"pos": self.choice_pos(),
-                "piece": self.choice_pos()
-                }
+        return({"pos": self.choice_pos(),
+                "piece": self.choice_piece()
+                })
+        

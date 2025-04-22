@@ -53,7 +53,10 @@ class client():
     
     def move(self,c,request):
         respons = algo.algoritm().run(request)
-        c.send(json.dumps(respons).encode())
+        c.send(json.dumps({"response": "move",
+                           "move": respons,
+                           "message": "Fun message"
+                           }).encode())
         print(respons)
 
     def run(self):
