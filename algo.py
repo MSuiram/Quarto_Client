@@ -20,16 +20,16 @@ class algoritm():
         return random.choice(poss)
 
     def choice_piece(self):
-        liste = ["BDEC","BDEP","BDFC","BDFP","BLEC","BLFC","BLEP","BLFP","SDEC","SDEP","SDFC","SDFP","SLEC","SLFC","SLEP","SLFP"]
+        liste = [set("BDEC"),set("BDEP"),set("BDFC"),set("BDFP"),set("BLEC"),set("BLFC"),set("BLEP"),set("BLFP"),set("SDEC"),set("SDEP"),set("SDFC"),set("SDFP"),set("SLEC"),set("SLFC"),set("SLEP"),set("SLFP")]
         if self.piece != None:
-            liste.remove(self.piece)
+            liste.remove(set(self.piece))
         for i in self.board:
             if i != None:
-                liste.remove(i)
+                liste.remove(set(i))
             else:
                 pass
         print(liste)
-        return random.choice(liste)
+        return "".join(random.choice(liste))
 
     def run(self, data):
         self.data = data
