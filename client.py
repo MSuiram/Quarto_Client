@@ -1,13 +1,12 @@
 import socket
 import sys
 import json
-import time
-import threading
+import algo
 
 # Ne pas oublier de désactiver le pare feu (Celui de Avast)
 
 class client():
-    def __init__(self, IP = socket.gethostname(), port = int(sys.argv[1])):
+    def __init__(self, IP = "172.17.10.45", port = int(sys.argv[1])):
         self.s1 = socket.socket()
         self.s1.connect((IP, port))
         self.s2 = socket.socket()
@@ -53,7 +52,9 @@ class client():
         print(f"ClientSend pong")
     
     def move(self,c,request):
-        pass
+        respons = algo.algoritm().run(request)
+        c.send(json.dumps(respons).encode())
+        print(respons)
 
     def run(self):
         self.subscribe()
