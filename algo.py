@@ -1,9 +1,18 @@
 import random
+import time
 
 class algoritm():
     def __init__(self, board = [], piece = None):
         self.board = board
         self.piece = piece
+
+    def timeit(fun):
+        def wrapper(*args, **kwargs):
+            start = time.time()
+            res = fun(*args, **kwargs)
+            print(f"Executed in {time.time()-start}")
+            return res
+        return wrapper
 
     def life(self):
         print(self.data["lives"])
@@ -34,7 +43,8 @@ class algoritm():
             return "".join(random.choice(liste))
         else:
             return None
-
+        
+    @timeit
     def run(self, data):
         self.data = data
         self.life()
