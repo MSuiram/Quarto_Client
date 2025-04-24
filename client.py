@@ -6,7 +6,7 @@ import algo
 # Ne pas oublier de désactiver le pare feu (Celui de Avast)
 
 class client():
-    def __init__(self, IP = "172.17.10.45", port = int(sys.argv[1])):
+    def __init__(self, IP = socket.gethostname(), port = int(sys.argv[1])):
         self.s1 = socket.socket()
         self.s1.connect((IP, port))
         self.s2 = socket.socket()
@@ -28,23 +28,28 @@ class client():
         return(respons)
             
     def subscribe(self):
-        order = json.dumps({"request": "subscribe",
-                            "port": 5000,
-                            "name": "SuiraBot",
-                            "matricules": ["23004"]
-                            }).encode()
-        self.s1.send(order)
-        finished = False
-        chunks =[]
-        while not finished:
-            data = self.s1.recv(1024)
-            chunks.append(data)
-            try:
-                respons = json.loads(b"".join(chunks).decode())
-                print(respons)
-                finished = True
-            except IndentationError:
-                pass
+        sub = False
+        while not sub:
+            order = json.dumps({"request": "subscribe",
+                                "port": 5000,
+                                "name": "SuiraBot",
+                                "matricules": ["23004"]
+                                }).encode()
+            self.s1.send(order)
+            finished = False
+            chunks =[]
+            while not finished:
+                data = self.s1.recv(1024)
+                chunks.append(data)
+                try:
+                    respons = json.loads(b"".join(chunks).decode())
+                    finished = True
+                except IndentationError:
+                    pass
+            if respons["response"] == "ok":
+                sub = True
+            if respons["response"] == "error":
+                print(f"ERROR: {respons["error"]}")
         self.s1.close()
 
     def pong(self,c):
