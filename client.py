@@ -7,10 +7,11 @@ import algo
 
 class client():
     def __init__(self, IP = socket.gethostname(), port = int(sys.argv[1])):
+        self.port = port
         self.s1 = socket.socket()
-        self.s1.connect((IP, port))
+        self.s1.connect((IP, 3000))
         self.s2 = socket.socket()
-        self.s2.bind((socket.gethostname(), 5000))
+        self.s2.bind((socket.gethostname(), self.port))
         
 
     def receive(self,c):
@@ -31,7 +32,7 @@ class client():
         sub = False
         while not sub:
             order = json.dumps({"request": "subscribe",
-                                "port": 5000,
+                                "port": self.port,
                                 "name": "SuiraBot",
                                 "matricules": ["23004"]
                                 }).encode()

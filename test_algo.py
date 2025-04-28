@@ -20,3 +20,7 @@ def test_run():
                                          "board": [None,"BDEC",None,"SDFP",None,None,None,None,None,"SLFC",None,None,"BLFP","BLEC",None,None],
                                          "piece": "BLEP"
                                          }})) == dict
+
+def test_winner():
+    assert algo.algoritm([None,"BDEC",None,"SDFP",None,None,None,None,None,"SLFC",None,None,"BLFP","BLEC",None,None],"LBEP").winner() == None
+    assert algo.algoritm(["SDEC","BDEC","BDFP","SDFP",None,None,None,None,None,"SLFC",None,None,"BLFP","BLEC",None,None],"LBEP").winner() == 1
