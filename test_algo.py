@@ -1,6 +1,7 @@
 import pytest
 import unittest
 import algo
+import negamax
 
 def test_choice_piece():
     assert set(algo.algoritm([None,"BDEC",None,"SDFP",None,None,None,None,None,"SLFC",None,None,"BLFP","BLEC",None,None],"LBEP").choice_piece()) in [set('BDEP'), set('BDCF'), set('BDFP'), set('BLCF'), set('DCES'), set('DEPS'), set('FDCS'), set('LCES'), set('LEPS'), set('FLPS')]
@@ -22,5 +23,5 @@ def test_run():
                                          }})) == dict
 
 def test_winner():
-    assert algo.algoritm([None,"BDEC",None,"SDFP",None,None,None,None,None,"SLFC",None,None,"BLFP","BLEC",None,None],"LBEP").winner() == None
-    assert algo.algoritm(["SDEC","BDEC","BDFP","SDFP",None,None,None,None,None,"SLFC",None,None,"BLFP","BLEC",None,None],"LBEP").winner() == 1
+    assert negamax.winner([None,"BDEC",None,"SDFP",None,None,None,None,None,"SLFC",None,None,"BLFP","BLEC",None,None]) == None
+    assert negamax.winner(["SDEC","BDEC","BDFP","SDFP",None,None,None,None,None,"SLFC",None,None,"BLFP","BLEC",None,None])== 1
