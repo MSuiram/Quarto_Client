@@ -24,6 +24,22 @@ def intersection(a , b):
             inter.add(val)
     return inter
 
+def pieces_list(state, piece):
+    pieces = ["BDEC","BDEP","BDFC","BDFP","BLEC","BLFC","BLEP","BLFP","SDEC","SDEP","SDFC","SDFP","SLEC","SLFC","SLEP","SLFP"]
+    for i in range(len(pieces)):
+        pieces[i] = set(pieces[i])
+
+    pieces.remove(set(piece))
+    for i in range(len(state)):
+        if state[i] != None:
+            if set(state[i]) in pieces:
+                pieces.remove(set(state[i]))
+
+    for i in range(len(pieces)):
+        pieces[i] = "".join(pieces[i])
+    return pieces
+
+
 def winner(state):
     for line in lines:
         values = list((state[i] for i in line))
@@ -92,13 +108,14 @@ def negamaxWithPruningLimitedDepth(state, piece, depth=4, alpha = float('-inf'),
     
     theValue, theMove = float('-inf'), None
     for move in moves(state):
-        successor = apply(state, move)
-        value, _ = negamaxWithPruningLimitedDepth(successor, piece, depth-1, -beta, -alpha)
-        if value > theValue:
-            theValue, theMove = value, move
-        alpha = max(alpha, theValue)
-        if alpha >= beta:
-            break
+        for piec in pieces_list(state, piece):
+            successor = apply(state, piece, move)
+            value, _ = negamaxWithPruningLimitedDepth(successor, piec, depth-1, -beta, -alpha)
+            if value > theValue:
+                theValue, theMove = value, move
+            alpha = max(alpha, theValue)
+            if alpha >= beta:
+                break
     return -theValue, theMove
 
 def next(state, piece):

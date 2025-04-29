@@ -1,6 +1,7 @@
 import pytest
 import unittest
 import algo
+import ABPruning
 
 def test_choice_piece():
     assert set(algo.algoritm([None,"BDEC",None,"SDFP",None,None,None,None,None,"SLFC",None,None,"BLFP","BLEC",None,None],"LBEP").choice_piece()) in [set('BDEP'), set('BDCF'), set('BDFP'), set('BLCF'), set('DCES'), set('DEPS'), set('FDCS'), set('LCES'), set('LEPS'), set('FLPS')]
@@ -20,3 +21,7 @@ def test_run():
                                          "board": [None,"BDEC",None,"SDFP",None,None,None,None,None,"SLFC",None,None,"BLFP","BLEC",None,None],
                                          "piece": "BLEP"
                                          }})) == dict
+    
+def test_pieces_list():
+    assert ABPruning.pieces_list([None,"BDEC",None,"SDFP",None,None,None,None,None,"SLFC",None,None,"BLFP","BLEC",None,None],"LBEP") == ['EDPB', 'DCFB', 'DPFB', 'CLFB', 'EDSC', 'EDSP', 'DSCF', 'ELSC', 'ELSP', 'LSPF']
+    assert ABPruning.pieces_list(["BDEC","BDEP","BDFC","BDFP","BLEC","BLFC","BLEP","BLFP","SDEC","SDEP","SDFC","SDFP","SLEC","SLFC","SLEP",None],"LFPS") == []
