@@ -80,7 +80,6 @@ def moves(state):
             res.append(i)
         
     random.shuffle(res)
-    print(res)
     return res
     
 def apply(state, piece, move):
@@ -118,7 +117,7 @@ def heuristic(state, piece):
         res += lineValue([state[i] for i in line], piece)
     return res
 
-def negamaxWithPruningLimitedDepth(state, piece, depth=4, alpha = float('-inf'), beta = float('inf')):
+def negamaxWithPruningLimitedDepth(state, piece, depth=3, alpha = float('-inf'), beta = float('inf')):
     if gameOver(state) or depth == 0:
         return -heuristic(state, piece), None
     

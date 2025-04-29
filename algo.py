@@ -1,5 +1,6 @@
 import random
 import time
+import ABPruning
 
 class algoritm():
     def __init__(self, board = [], piece = None):
@@ -23,11 +24,7 @@ class algoritm():
         self.piece = self.data["state"]["piece"]
 
     def choice_pos(self):
-        poss = []
-        for i in range(len(self.board)):
-            if self.board[i] == None:
-                poss.append(i)
-        return random.choice(poss)
+        return ABPruning(self.board, self.piece)
 
     def choice_piece(self):
         liste = [set("BDEC"),set("BDEP"),set("BDFC"),set("BDFP"),set("BLEC"),set("BLFC"),set("BLEP"),set("BLFP"),set("SDEC"),set("SDEP"),set("SDFC"),set("SDFP"),set("SLEC"),set("SLFC"),set("SLEP"),set("SLFP")]
