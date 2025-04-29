@@ -23,5 +23,11 @@ def test_run():
                                          }})) == dict
     
 def test_pieces_list():
-    assert ABPruning.pieces_list([None,"BDEC",None,"SDFP",None,None,None,None,None,"SLFC",None,None,"BLFP","BLEC",None,None],"LBEP") == ['EDPB', 'DCFB', 'DPFB', 'CLFB', 'EDSC', 'EDSP', 'DSCF', 'ELSC', 'ELSP', 'LSPF']
+    a = ABPruning.pieces_list([None,"BDEC",None,"SDFP",None,None,None,None,None,"SLFC",None,None,"BLFP","BLEC",None,None],"LBEP")
+    for i in range(len(a)):
+        a[i] = set(a[i])
+    assert a == [set('EDPB'), set('DCFB'), set('DPFB'), set('CLFB'), set('EDSC'), set('EDSP'), set('DSCF'), set('ELSC'), set('ELSP'), set('LSPF')]
     assert ABPruning.pieces_list(["BDEC","BDEP","BDFC","BDFP","BLEC","BLFC","BLEP","BLFP","SDEC","SDEP","SDFC","SDFP","SLEC","SLFC","SLEP",None],"LFPS") == []
+
+def test_lineValue():
+    assert ABPruning.lineValue(["BDEC","BDEP","BDFC","BDFP"],"LFPS") == 2

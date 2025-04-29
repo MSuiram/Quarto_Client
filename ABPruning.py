@@ -103,10 +103,7 @@ def lineValue(line, piece):
             for type in elem:
                 if type in list(counter.keys()):
                     counter[type] += 1
-
-    return counter[max(counter)]
-
-lineValue([None,"BDEC",None,"SDFP"],"LBEP")
+    return max([counter[piece[0]],counter[piece[1]],counter[piece[2]],counter[piece[3]]])
 
 def heuristic(state, piece):
     if gameOver(state):
