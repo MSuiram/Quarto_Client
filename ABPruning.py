@@ -53,11 +53,11 @@ def winner(state):
             return 1
     return None
     
-def utility(state, player):
+def utility(state, piece):
     theWinner = winner(state)
     if theWinner is None:
         return 0
-    if theWinner == player:
+    if theWinner == piece:
         return 1
     return -1
     
@@ -89,17 +89,36 @@ def apply(state, piece, move):
     res[move] = player
     return res
 
+def lineValue(line, piece):
+    piece = list(piece)
+    counter = {
+        piece[0] : 0,
+        piece[1] : 0,
+        piece[2] : 0,
+        piece[3] : 0,
+    }
+    for elem in line:
+        if elem != None:
+            elem = list(elem)
+            for type in elem:
+                if type in list(counter.keys()):
+                    counter[type] += 1
+
+    return counter[max(counter)]
+
+lineValue([None,"BDEC",None,"SDFP"],"LBEP")
+
 def heuristic(state, piece):
     if gameOver(state):
         theWinner = winner(state)
         if theWinner is None:
             return 0
         if theWinner == piece:
-            return 9
-        return -9
+            return 40
+        return 0
     res = 0
     for line in lines:
-        res += utility([state[i] for i in line], piece)
+        res += lineValue([state[i] for i in line], piece)
     return res
 
 def negamaxWithPruningLimitedDepth(state, piece, depth=4, alpha = float('-inf'), beta = float('inf')):
