@@ -124,7 +124,7 @@ def negamaxWithPruningIterativeDeepening(state, piece, timeout = 0.3):
     def negamaxWithPruningLimitedDepth(state, piece, depth=3, alpha = float('-inf'), beta = float('inf')):
         over = gameOver(state)
         if over or depth == 0:
-            res = -heuristic(state, piece), None, over
+            res = -heuristic(state, piece), None, over, piece
         
         else:
             theValue, theMove = float('-inf'), None
@@ -133,14 +133,14 @@ def negamaxWithPruningIterativeDeepening(state, piece, timeout = 0.3):
             for move in moves(state):
                 for piec in pieces_list(state, piece):
                     successor = apply(state, piece, move)
-                    value, _, over = negamaxWithPruningLimitedDepth(successor, piec, depth-1, -beta, -alpha)
+                    value, _, over, thePiece = negamaxWithPruningLimitedDepth(successor, piec, depth-1, -beta, -alpha)
                     theOver = over
                     if value > theValue:
-                        theValue, theMove = value, move
+                        theValue, theMove, thePiece = value, move, piec
                     alpha = max(alpha, theValue)
                     if alpha >= beta:
                         break
-            res =  -theValue, theMove, theOver
+            res =  -theValue, theMove, theOver, thePiece
         cache[tuple(state)] = res[0]
         return res
     
@@ -149,11 +149,11 @@ def negamaxWithPruningIterativeDeepening(state, piece, timeout = 0.3):
     start = time.time()
     over = False
     while value > -9 and time.time() - start < timeout and not over:
-        value, move, over = negamaxWithPruningLimitedDepth(state, piece, depth)
+        value, move, over, thePiece = negamaxWithPruningLimitedDepth(state, piece, depth)
         depth += 1
     print(f"La profondeur est de {depth}")
-    return value, move
+    return value, move, thePiece
 
 def next(state, piece):
-    _, move =negamaxWithPruningIterativeDeepening(state, piece)
-    return move
+    _, move, thePiece =negamaxWithPruningIterativeDeepening(state, piece)
+    return move, thePiece
