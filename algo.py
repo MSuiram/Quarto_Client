@@ -24,7 +24,9 @@ class algoritm():
         self.piece = self.data["state"]["piece"]
 
     def choice_pos(self):
-        return ABPruning(self.board, self.piece)
+        a = ABPruning.next(self.board, self.piece)
+        print(a)
+        return a
 
     def choice_piece(self):
         liste = [set("BDEC"),set("BDEP"),set("BDFC"),set("BDFP"),set("BLEC"),set("BLFC"),set("BLEP"),set("BLFP"),set("SDEC"),set("SDEP"),set("SDFC"),set("SDFP"),set("SLEC"),set("SLFC"),set("SLEP"),set("SLFP")]
@@ -46,6 +48,10 @@ class algoritm():
         self.data = data
         self.life()
         self.states()
+        if self.piece == None:
+            return({"pos": None,
+                "piece": self.choice_piece()
+                })
         return({"pos": self.choice_pos(),
                 "piece": self.choice_piece()
                 })

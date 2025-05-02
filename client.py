@@ -6,7 +6,7 @@ import algo
 # Ne pas oublier de désactiver le pare feu (Celui de Avast)
 
 class client():
-    def __init__(self, IP = socket.gethostname(), port = int(sys.argv[1])):
+    def __init__(self, IP = "192.168.1.45", port = int(sys.argv[1])):
         self.s1 = socket.socket()
         self.s1.connect((IP, port))
         self.s2 = socket.socket()
@@ -32,8 +32,8 @@ class client():
         while not sub:
             order = json.dumps({"request": "subscribe",
                                 "port": 5000,
-                                "name": "SuiraBot",
-                                "matricules": ["23004"]
+                                "name": "Suira",
+                                "matricules": ["23003"]
                                 }).encode()
             self.s1.send(order)
             finished = False
