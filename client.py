@@ -32,8 +32,8 @@ class client():
         while not sub:
             order = json.dumps({"request": "subscribe",
                                 "port": 5000,
-                                "name": "Suira",
-                                "matricules": ["23003"]
+                                "name": "SuiraBot",
+                                "matricules": ["23004"]
                                 }).encode()
             self.s1.send(order)
             finished = False

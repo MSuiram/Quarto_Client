@@ -1,4 +1,6 @@
 import random
+from collections import defaultdict
+import time
 
 lines = [
                     [0,1,2,3],
@@ -63,7 +65,6 @@ def utility(state, piece):
     
 def gameOver(state):
     if winner(state) is not None:
-        print("a")
         return True
         
     empty = 0
@@ -85,7 +86,8 @@ def moves(state):
 def apply(state, piece, move):
     player = piece
     res = list(state)
-    res[move] = player
+    if move != None:
+        res[move] = player
     return res
 
 def lineValue(line, piece):
@@ -117,22 +119,41 @@ def heuristic(state, piece):
         res += lineValue([state[i] for i in line], piece)
     return res
 
-def negamaxWithPruningLimitedDepth(state, piece, depth=3, alpha = float('-inf'), beta = float('inf')):
-    if gameOver(state) or depth == 0:
-        return -heuristic(state, piece), None
+def negamaxWithPruningIterativeDeepening(state, piece, timeout = 0.3):
+    cache = defaultdict(lambda : 0)
+    def negamaxWithPruningLimitedDepth(state, piece, depth=3, alpha = float('-inf'), beta = float('inf')):
+        over = gameOver(state)
+        if over or depth == 0:
+            res = -heuristic(state, piece), None, over
+        
+        else:
+            theValue, theMove = float('-inf'), None
+            possibilities = [(move, apply(state, piece, move)) for move in moves(state)]
+            possibilities.sort(key=lambda poss: cache[tuple(poss[1])])
+            for move in moves(state):
+                for piec in pieces_list(state, piece):
+                    successor = apply(state, piece, move)
+                    value, _, over = negamaxWithPruningLimitedDepth(successor, piec, depth-1, -beta, -alpha)
+                    theOver = over
+                    if value > theValue:
+                        theValue, theMove = value, move
+                    alpha = max(alpha, theValue)
+                    if alpha >= beta:
+                        break
+            res =  -theValue, theMove, theOver
+        cache[tuple(state)] = res[0]
+        return res
     
-    theValue, theMove = float('-inf'), None
-    for move in moves(state):
-        for piec in pieces_list(state, piece):
-            successor = apply(state, piece, move)
-            value, _ = negamaxWithPruningLimitedDepth(successor, piec, depth-1, -beta, -alpha)
-            if value > theValue:
-                theValue, theMove = value, move
-            alpha = max(alpha, theValue)
-            if alpha >= beta:
-                break
-    return -theValue, theMove
+    value, move = 0, None
+    depth = 1
+    start = time.time()
+    over = False
+    while value > -9 and time.time() - start < timeout and not over:
+        value, move, over = negamaxWithPruningLimitedDepth(state, piece, depth)
+        depth += 1
+    print(f"La profondeur est de {depth}")
+    return value, move
 
 def next(state, piece):
-    _, move =negamaxWithPruningLimitedDepth(state, piece)
+    _, move =negamaxWithPruningIterativeDeepening(state, piece)
     return move

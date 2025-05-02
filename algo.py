@@ -25,7 +25,6 @@ class algoritm():
 
     def choice_pos(self):
         a = ABPruning.next(self.board, self.piece)
-        print(a)
         return a
 
     def choice_piece(self):
@@ -37,7 +36,6 @@ class algoritm():
                 liste.remove(set(i))
             else:
                 pass
-        print(liste)
         if liste != []:
             return "".join(random.choice(liste))
         else:
