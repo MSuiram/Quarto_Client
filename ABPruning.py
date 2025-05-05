@@ -2,6 +2,9 @@ import random
 from collections import defaultdict
 import time
 
+class NoTimeError(Exception):
+    pass
+
 lines = [
                     [0,1,2,3],
                     [4,5,6,7],
@@ -97,6 +100,7 @@ def lineValue(line, piece):
         piece[1] : 0,
         piece[2] : 0,
         piece[3] : 0,
+        None : 0
     }
     for elem in line:
         if elem != None:
@@ -104,7 +108,10 @@ def lineValue(line, piece):
             for type in elem:
                 if type in list(counter.keys()):
                     counter[type] += 1
-    return max([counter[piece[0]],counter[piece[1]],counter[piece[2]],counter[piece[3]]])
+        counter[None] += 1
+    if counter[None] + max([counter[piece[0]],counter[piece[1]],counter[piece[2]],counter[piece[3]]]) == 4:
+        return 1
+    return 0
 
 def heuristic(state, piece):
     if gameOver(state):
@@ -119,9 +126,9 @@ def heuristic(state, piece):
         res += lineValue([state[i] for i in line], piece)
     return res
 
-def negamaxWithPruningIterativeDeepening(state, piece, timeout = 0.3):
+def negamaxWithPruningIterativeDeepening(state, piece, timeout = 2):
     cache = defaultdict(lambda : 0)
-    def negamaxWithPruningLimitedDepth(state, piece, depth=3, alpha = float('-inf'), beta = float('inf')):
+    def negamaxWithPruningLimitedDepth(state, piece, depth=3, alpha = float('-inf'), beta = float('inf'), start = time.time(), timeout = 0.3):
         over = gameOver(state)
         if over or depth == 0:
             res = -heuristic(state, piece), None, over, piece
@@ -132,8 +139,10 @@ def negamaxWithPruningIterativeDeepening(state, piece, timeout = 0.3):
             possibilities.sort(key=lambda poss: cache[tuple(poss[1])])
             for move in moves(state):
                 for piec in pieces_list(state, piece):
+                    if time.time() - start > timeout:
+                        raise NoTimeError()
                     successor = apply(state, piece, move)
-                    value, _, over, thePiece = negamaxWithPruningLimitedDepth(successor, piec, depth-1, -beta, -alpha)
+                    value, _, over, thePiece = negamaxWithPruningLimitedDepth(successor, piec, depth-1, -beta, -alpha, start, timeout)
                     theOver = over
                     if value > theValue:
                         theValue, theMove, thePiece = value, move, piec
@@ -148,9 +157,15 @@ def negamaxWithPruningIterativeDeepening(state, piece, timeout = 0.3):
     depth = 1
     start = time.time()
     over = False
-    while value > -9 and time.time() - start < timeout and not over:
-        value, move, over, thePiece = negamaxWithPruningLimitedDepth(state, piece, depth)
-        depth += 1
+    thePiece = None
+    while value > -40 and time.time() - start < timeout and not over:
+        try:
+            value, move, over, thePiece = negamaxWithPruningLimitedDepth(state, piece, depth, start=start, timeout=timeout)
+            depth += 1
+        except NoTimeError:
+            break
+    if thePiece == None:
+        thePiece = random.choice(pieces_list(state, piece))
     print(f"La profondeur est de {depth}")
     return value, move, thePiece
 

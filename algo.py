@@ -25,6 +25,13 @@ class algoritm():
 
     def choice_pos(self):
         self.move, self.thePiece = ABPruning.next(self.board, self.piece)
+
+    def random_choice_pos(self):
+        poss = []
+        for i in range(len(self.board)):
+            if self.board[i] == None:
+                poss.append(i)
+        return random.choice(poss)
        
     def choice_piece(self):
         liste = [set("BDEC"),set("BDEP"),set("BDFC"),set("BDFP"),set("BLEC"),set("BLFC"),set("BLEP"),set("BLFP"),set("SDEC"),set("SDEP"),set("SDFC"),set("SDFP"),set("SLEC"),set("SLFC"),set("SLEP"),set("SLFP")]
@@ -50,6 +57,9 @@ class algoritm():
                 "piece": self.choice_piece()
                 })
         self.choice_pos()
+        if self.move == None:
+            print("Random")
+            self.move = self.random_choice_pos()
         return({"pos": self.move,
                 "piece": self.thePiece
                 })
