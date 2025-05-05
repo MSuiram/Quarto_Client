@@ -130,6 +130,8 @@ def negamaxWithPruningIterativeDeepening(state, piece, timeout = 2):
     cache = defaultdict(lambda : 0)
     def negamaxWithPruningLimitedDepth(state, piece, depth=3, alpha = float('-inf'), beta = float('inf'), start = time.time(), timeout = 0.3):
         over = gameOver(state)
+        theOver = over
+        thePiece = None
         if over or depth == 0:
             res = -heuristic(state, piece), None, over, piece
         
