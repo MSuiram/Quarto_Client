@@ -22,9 +22,10 @@ class algoritm():
     def states(self):
         self.board = self.data["state"]["board"]
         self.piece = self.data["state"]["piece"]
+        self.current = self.data["state"]["current"]
 
     def choice_pos(self):
-        self.move, self.thePiece = ABPruning.next(self.board, self.piece)
+        self.move, self.thePiece = ABPruning.next(self.board, self.piece, self.current)
 
     def random_choice_pos(self):
         poss = []
