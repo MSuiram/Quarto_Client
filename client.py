@@ -6,7 +6,7 @@ import algo
 # Ne pas oublier de désactiver le pare feu (Celui de Avast)
 
 class client():
-    def __init__(self, IP = "192.168.1.56", port = int(sys.argv[1])):
+    def __init__(self, IP = "172.17.10.133", port = int(sys.argv[1])):
         self.s1 = socket.socket()
         self.s1.connect((IP, port))
         self.s2 = socket.socket()
