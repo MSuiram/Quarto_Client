@@ -95,7 +95,9 @@ def lineValue(line):
     inter = {"B","S","D","L","E","F","C","P"}
     for i in range(len(pieces)):
         inter = inter.intersection(pieces[i])
-
+    
+    if len(inter) == 1 and counter[None] == 0:
+        return 20
     return len(inter) + (4-counter[None])
 
 def heuristic(state, player, current):
@@ -145,7 +147,7 @@ def negamaxWithPruningIterativeDeepening(state, piece, player, current, timeout 
     start = time.time()
     over = False
     thePiece = None
-    while value > -100 and time.time() - start < timeout and not over:
+    while value > -200 and time.time() - start < timeout and not over:
         try:
             value, move, over, thePiece = negamaxWithPruningLimitedDepth(state, piece, player, current, depth, start=start, timeout=timeout)
             print(f"Value {value}")
