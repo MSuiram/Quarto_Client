@@ -44,6 +44,23 @@ def pieces_list(state, piece):
         pieces[i] = "".join(pieces[i])
     return pieces
 
+def align(state, piece):
+    for line in lines:
+        counter = {None : 0}
+        pos_none = None
+        inter = {"B","S","D","L","E","F","C","P"}
+        for i in line:
+            if state[i] == None:
+                counter[None] += 1
+                pos_none = i
+            if state[i] != None:
+                inter = inter.intersection(state[i])
+        inter = inter.intersection(set(piece))
+        if counter[None] == 1:
+            if len(inter) == 2 or len(inter) == 1:
+                return pos_none
+    return None 
+
 def winner(state):
     for line in lines:
         values = list((state[i] for i in line))
@@ -147,6 +164,11 @@ def negamaxWithPruningIterativeDeepening(state, piece, player, current, timeout 
     start = time.time()
     over = False
     thePiece = None
+
+    if align(state, piece) != None:
+        print("Win")
+        return None ,align(state, piece), None
+    
     while value > -200 and time.time() - start < timeout and not over:
         try:
             value, move, over, thePiece = negamaxWithPruningLimitedDepth(state, piece, player, current, depth, start=start, timeout=timeout)

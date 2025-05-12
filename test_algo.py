@@ -31,3 +31,6 @@ def test_pieces_list():
 
 def test_lineValue():
     assert ABPruning.lineValue(["BDEC","BDEP","BDFC","BDFP"],"LFPS") == 2
+
+def test_align():
+    assert ABPruning.align(print(["BDEC","BDEP","BDFC", None, None, 'CSLE', None, None, None, None, None, None, None, None, None, None],"BDFP")) == 3
