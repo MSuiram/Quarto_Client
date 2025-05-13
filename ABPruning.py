@@ -18,16 +18,16 @@ lines = [
                     [3,6,9,12]
                     ]
 
-def intersection(a , b):
-    if a is None:
-        return b
-    if b is None:
-        return a
-    inter = set()
-    for val in a:
-        if val in b:
-            inter.add(val)
-    return inter
+#def intersection(a , b):
+#   if a is None:
+#       return b
+#   if b is None:
+#       return a
+#   inter = set()
+#   for val in a:
+#       if val in b:
+#           inter.add(val)
+#   return inter
 
 def pieces_list(state, piece):
     pieces = ["BDEC","BDEP","BDFC","BDFP","BLEC","BLFC","BLEP","BLFP","SDEC","SDEP","SDFC","SDFP","SLEC","SLFC","SLEP","SLFP"]
@@ -64,12 +64,9 @@ def align(state, piece):
 def winner(state):
     for line in lines:
         values = list((state[i] for i in line))
-        for i in range(len(values)):
-            if values[i] != None:
-                values[i] = set(values[i])
-        intersection1 = intersection(values[0],values[1])
-        intersection2 = intersection(values[2],values[3])
-        inter = intersection(intersection1,intersection2)
+        inter = set(values[0])
+        for i in range(3):
+            inter = inter.intersection(values[i+1])
         if None not in values and len(inter) == 1:
             return 1
     return None
@@ -114,7 +111,7 @@ def lineValue(line):
         inter = inter.intersection(pieces[i])
     
     if len(inter) == 1 and counter[None] == 0:
-        return 20
+        return 20 
     return len(inter) + (4-counter[None])
 
 
