@@ -7,7 +7,7 @@ import random
 # Ne pas oublier de désactiver le pare feu (Celui de Avast)
 
 class client():
-    def __init__(self, IP = "172.17.89.80", port = int(sys.argv[1])):
+    def __init__(self, IP = str(sys.argv[1]), port = int(sys.argv[2])):
         self.s1 = socket.socket()
         self.s1.connect((IP, port))
         self.s2 = socket.socket()

@@ -117,14 +117,15 @@ def lineValue(line):
         return 20
     return len(inter) + (4-counter[None])
 
+
 def heuristic(state, player, current):
     if gameOver(state):
         theWinner = winner(state)
         if theWinner is None:
             return 0
         if theWinner == player:
-            return 100
-        return -100
+            return 400
+        return -400
     res = 0
     for line in lines:
             res += lineValue([state[i] for i in line])
@@ -170,7 +171,7 @@ def negamaxWithPruningIterativeDeepening(state, piece, player, current, timeout 
         return None ,align(state, piece), None
     print("other")
     
-    while value > -200 and time.time() - start < timeout and not over:
+    while value > -400 and time.time() - start < timeout and not over:
         try:
             value, move, over, thePiece = negamaxWithPruningLimitedDepth(state, piece, player, current, depth, start=start, timeout=timeout)
             print(f"Value {value}")
