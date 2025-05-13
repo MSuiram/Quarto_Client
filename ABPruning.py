@@ -168,6 +168,7 @@ def negamaxWithPruningIterativeDeepening(state, piece, player, current, timeout 
     if align(state, piece) != None:
         print("Win")
         return None ,align(state, piece), None
+    print("other")
     
     while value > -200 and time.time() - start < timeout and not over:
         try:
