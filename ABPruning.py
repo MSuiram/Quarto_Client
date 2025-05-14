@@ -100,8 +100,8 @@ def lineValue(line):
     for i in range(len(pieces)):
         inter = inter.intersection(pieces[i])
     
-    if counter[None] == 0:
-        if len(inter) == 1 or len(inter) == 2:
+    if counter[None] == 1:
+        if len(inter) != 0:
             return 20 
     return len(inter) + (4-counter[None])
 
@@ -163,11 +163,6 @@ def negamaxWithPruningIterativeDeepening(state, piece, player, current, timeout 
             depth += 1
         except NoTimeError:
             break
-    list_pieces = pieces_list(state, piece)
-    if len(list_pieces) > 0:
-        thePiece = random.choice(list_pieces)
-    else:
-        thePiece = None
     print(f"[Message] Depth is {depth-1}")
     return value, move, thePiece
 

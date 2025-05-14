@@ -1,13 +1,13 @@
-#Bot Quarto
+# Bot Quarto
 ===========
 
 Ce projet consiste à créer un algorithme pouvant jouer à Quarto. Pour cela, il comunique via réseau avec un autre projet Git Hub : https://github.com/qlurkin/PI2CChampionshipRunner
 
-##Fonctionnement
+## Fonctionnement
 
 Le Bot est un algorithme de type Negamax avec ABPruning limité dans le temps. C'est a dire qu'il joue au jeu tous seul au jeu pendant plusieurs tours jusqu'au moment où la limite de temps est dépasser. A ce moment là, il retounre le meilleur coups qu'il a pu calculer.
 
-##Stratégie
+## Stratégie
 
 L'Algorithme pouvant avoir plusieurs coup d'avance permet d'aller directement vers les états les plus favorable. Cela est due au calcule d'une heuristique donnant une valeur à cchaque états terminal de la parie.
 
@@ -18,7 +18,7 @@ Si il a une possibilité de gagner en possant sa pièce, il le fera directement 
 
 Au début de la partie, si le Bot est le premier joueurs, il présentera un pièce choisie aléatoirement.
 
-##Bibliothèques utilisés
+## Bibliothèques utilisés
 
 - **socket** : sert à communiquer via le réseau
 - **random** : permet de faire des actions aléatoires
@@ -27,7 +27,7 @@ Au début de la partie, si le Bot est le premier joueurs, il présentera un piè
 - **time** : permet de gérer le temps
 - **pytest** et **unittest** : permettent de faire des tests sur différentes partie du programe
 
-##Utiliser le Bot
+## Utiliser le Bot
 
 Pour utiliser le Bot, il vous faut deux chose:
 
