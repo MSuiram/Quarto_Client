@@ -64,4 +64,3 @@ class algoritm():
         return({"pos": self.move,
                 "piece": self.thePiece
                 })
-        

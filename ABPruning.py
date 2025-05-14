@@ -18,17 +18,6 @@ lines = [
                     [3,6,9,12]
                     ]
 
-#def intersection(a , b):
-#   if a is None:
-#       return b
-#   if b is None:
-#       return a
-#   inter = set()
-#   for val in a:
-#       if val in b:
-#           inter.add(val)
-#   return inter
-
 def pieces_list(state, piece):
     pieces = ["BDEC","BDEP","BDFC","BDFP","BLEC","BLFC","BLEP","BLFP","SDEC","SDEP","SDFC","SDFP","SLEC","SLFC","SLEP","SLFP"]
     for i in range(len(pieces)):
@@ -68,8 +57,8 @@ def winner(state):
             inter = set(values[0])
             for i in range(3):
                 inter = inter.intersection(values[i+1])
-        if None not in values and len(inter) == 1:
-            return 1
+            if len(inter) == 1 or len(inter) == 2:
+                return 1
     return None
     
 def gameOver(state):
@@ -90,7 +79,7 @@ def moves(state):
         
     random.shuffle(res)
     return res
-    
+  
 def apply(state, piece, move):
     res = list(state)
     if move != None:
@@ -111,12 +100,12 @@ def lineValue(line):
     for i in range(len(pieces)):
         inter = inter.intersection(pieces[i])
     
-    if len(inter) == 1 and counter[None] == 0:
-        return 20 
+    if counter[None] == 0:
+        if len(inter) == 1 or len(inter) == 2:
+            return 20 
     return len(inter) + (4-counter[None])
 
-
-def heuristic(state, player, current):
+def heuristic(state, player):
     if gameOver(state):
         theWinner = winner(state)
         if theWinner is None:
@@ -136,7 +125,7 @@ def negamaxWithPruningIterativeDeepening(state, piece, player, current, timeout 
         theOver = over
         thePiece = None
         if over or depth == 0:
-            res = -heuristic(state, player, current), None, over, piece
+            res = -heuristic(state, player), None, over, piece
         
         else:
             theValue, theMove = float('-inf'), None
