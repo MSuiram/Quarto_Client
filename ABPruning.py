@@ -154,14 +154,12 @@ def negamaxWithPruningIterativeDeepening(state, piece, player, current, timeout 
     thePiece = None
 
     if align(state, piece) != None:
-        print("Win")
+        print("[Message] You are Win !!!")
         return None ,align(state, piece), None
-    print("other")
     
     while value > -400 and time.time() - start < timeout and not over:
         try:
             value, move, over, thePiece = negamaxWithPruningLimitedDepth(state, piece, player, current, depth, start=start, timeout=timeout)
-            print(f"Value {value}")
             depth += 1
         except NoTimeError:
             break
@@ -170,7 +168,7 @@ def negamaxWithPruningIterativeDeepening(state, piece, player, current, timeout 
         thePiece = random.choice(list_pieces)
     else:
         thePiece = None
-    print(f"La profondeur est de {depth}")
+    print(f"[Message] Depth is {depth-1}")
     return value, move, thePiece
 
 def next(state, piece, current):

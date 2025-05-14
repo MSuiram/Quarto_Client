@@ -25,7 +25,7 @@ class client():
                 finished = True
             except IndentationError:
                 pass
-        print(f"ClientRecv {respons}")
+        print(f"[Message] ClientRecv {respons}")
         return(respons)
             
     def subscribe(self):
@@ -50,7 +50,7 @@ class client():
             if respons["response"] == "ok":
                 sub = True
             if respons["response"] == "error":
-                print(f"ERROR: {respons["error"]}")
+                print(f"[Error] {respons["error"]}")
         self.s1.close()
 
     def message(self):
@@ -82,7 +82,7 @@ class client():
 
     def pong(self,c):
         c.send(json.dumps({"response": "pong"}).encode())
-        print(f"ClientSend pong")
+        print(f"[Message] ClientSend pong")
     
     def move(self,c,request):
         respons = algo.algoritm().run(request)
@@ -90,7 +90,7 @@ class client():
                            "move": respons,
                            "message": self.message()
                            }).encode())
-        print(respons)
+        print(f"[Message] Your respons is {respons}")
 
     def run(self):
         self.subscribe()

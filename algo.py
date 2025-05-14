@@ -11,13 +11,15 @@ class algoritm():
         def wrapper(*args, **kwargs):
             start = time.time()
             res = fun(*args, **kwargs)
-            print(f"Executed in {time.time()-start}")
+            print(f"[Timeit] Executed in {time.time()-start}")
             return res
         return wrapper
 
     def life(self):
-        print(self.data["lives"])
-        print(self.data["errors"])
+        if self.data["errors"] == []:
+            print(f"[Message] You have {self.data["lives"]} lives")
+        else:
+            print(f"[Error] You have {self.data["lives"]} lives and error is {self.data["errors"]}")
 
     def states(self):
         self.board = self.data["state"]["board"]
