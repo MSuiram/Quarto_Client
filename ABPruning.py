@@ -61,12 +61,13 @@ def align(state, piece):
                 return pos_none
     return None 
 
-def winner(state):
+def winner(state): 
     for line in lines:
         values = list((state[i] for i in line))
-        inter = set(values[0])
-        for i in range(3):
-            inter = inter.intersection(values[i+1])
+        if None not in values:
+            inter = set(values[0])
+            for i in range(3):
+                inter = inter.intersection(values[i+1])
         if None not in values and len(inter) == 1:
             return 1
     return None
