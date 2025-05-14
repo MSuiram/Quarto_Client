@@ -91,6 +91,7 @@ class client():
                            "message": self.message()
                            }).encode())
         print(f"[Message] Your respons is {respons}")
+        print("==========================")
 
     def run(self):
         self.subscribe()
