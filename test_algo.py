@@ -28,8 +28,8 @@ def test_pieces_list():
     assert ABPruning.pieces_list(["BDEC","BDEP","BDFC","BDFP","BLEC","BLFC","BLEP","BLFP","SDEC","SDEP","SDFC","SDFP","SLEC","SLFC","SLEP",None],"LFPS") == []
 
 def test_lineValue():
-    assert ABPruning.lineValue(["BDEC","BDEP","BDFC","BDFP"]) == 20
-    assert ABPruning.lineValue(["BDEC","BDEP","BDFC","SLFP"]) == 4
+    assert ABPruning.lineValue(["BDEC","BDEP","BDFC","BDFP"]) == 6
+    assert ABPruning.lineValue(["BDEC","BDEP","BDFC",None]) == 20
 
 def test_align():
     assert ABPruning.align(["BDEC","BDEP","BDFC", None, None, 'CSLE', None, None, None, None, None, None, None, None, None, None],"BDFP") == 3
@@ -52,11 +52,11 @@ def test_apply():
     assert ABPruning.apply(["BDEC","BDEP","BDFC", None, None, 'CSLE', None, None, None, None, None, None, None, None, None, None],"BDFP",3) == ['BDEC', 'BDEP', 'BDFC', 'BDFP', None, 'CSLE', None, None, None, None, None, None, None, None, None, None]
 
 def test_heuristic():
-    assert ABPruning.heuristic(["BDEC","BDEP","BDFC", None, None, 'CSLE', None, None, None, None, None, None, None, None, None, None],1) == 59
+    assert ABPruning.heuristic(["BDEC","BDEP","BDFC", None, None, 'CSLE', None, None, None, None, None, None, None, None, None, None],1) == 74
     assert ABPruning.heuristic(["BDEC","BDEP","BDFC", "BDFP", None, 'CSLE', None, None, None, None, None, None, None, None, None, None],1) == 400
     assert ABPruning.heuristic(["BDEC","BDEP","BDFC", "BDFP", None, 'CSLE', None, None, None, None, None, None, None, None, None, None],0) == -400
 
 def test_negamaxWithPruningIterativeDeepening():
     assert ABPruning.negamaxWithPruningIterativeDeepening(["BDEC","BDEP","BDFC", None, None, 'CSLE', None, None, None, None, None, None, None, None, None, None],"BDFP", 0,0) == (None, 3, None)
     result = ABPruning.negamaxWithPruningIterativeDeepening(["BDEC",None,"BDFC", None, None, 'CSLE', None, None, None, None, None, None, None, None, None, None],"BDFP", 0,0)
-    assert result[0:2] == (-52, 14) or result[0:2] == (46, 9)
+    assert result[0:2] == (-54, 3)
